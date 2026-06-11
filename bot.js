@@ -4,10 +4,14 @@
  */
 
 const TelegramBot = require("node-telegram-bot-api");
-const SessionManager = require("./services/sessionManager");
-const ConversationAgent = require("./agents/conversationAgent");
-const { logger } = require("./utils/logger");
-const config = require("../config/config");
+const SessionManager = require("./sessionManager");
+const ConversationAgent = require("./conversationAgent");
+const config = require("./config");
+
+const logger = {
+  info: (...args) => console.log("[INFO]", ...args),
+  error: (...args) => console.error("[ERROR]", ...args),
+};
 
 const bot = new TelegramBot(config.TELEGRAM_TOKEN, { polling: true });
 const sessionManager = new SessionManager();
