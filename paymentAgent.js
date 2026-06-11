@@ -11,8 +11,7 @@
  * For production: Integrate Razorpay / PayU / Cashfree webhooks
  */
 
-const config = require("../../config/config");
-const { logger } = require("../utils/logger");
+const config = require("./config");
 
 class PaymentAgent {
   constructor(bot) {
@@ -62,7 +61,7 @@ class PaymentAgent {
           parse_mode: "Markdown",
         });
       } catch (e) {
-        logger.warn("Could not send QR code image:", e.message);
+        console.warn("Could not send QR code image:", e.message);
       }
     }
 
@@ -96,7 +95,7 @@ class PaymentAgent {
 
     // In production: verify with payment gateway API
     // For MVP: trust the UTR and mark confirmed
-    logger.info(`Payment UTR received for user ${session.userId}: ${utr}`);
+    console.log(`Payment UTR received for user ${session.userId}: ${utr}`);
 
     await this.bot.sendMessage(
       chatId,
@@ -148,7 +147,7 @@ class PaymentAgent {
    */
   async notifyAdmin(session) {
     if (!config.ADMIN_CHAT_ID) {
-      logger.warn("ADMIN_CHAT_ID not configured — skipping admin notification");
+      console.warn("ADMIN_CHAT_ID not configured — skipping admin notification");
       return;
     }
 
@@ -178,9 +177,9 @@ class PaymentAgent {
       await this.bot.sendMessage(config.ADMIN_CHAT_ID, adminMsg, {
         parse_mode: "Markdown",
       });
-      logger.info(`Admin notified for user ${session.userId}`);
+      console.log(`Admin notified for user ${session.userId}`);
     } catch (err) {
-      logger.error("Failed to notify admin:", err.message);
+      console.error("Failed to notify admin:", err.message);
     }
   }
 

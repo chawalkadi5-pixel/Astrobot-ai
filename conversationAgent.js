@@ -4,12 +4,11 @@
  *  Onboarding → Kundali → Questions → Upsell → Payment → Handoff
  */
 
-const { STEPS } = require("../services/sessionManager");
+const { STEPS } = require("./sessionManager");
 const AstroAgent = require("./astroAgent");
 const PaymentAgent = require("./paymentAgent");
-const { validateDOB, validateTOB, validateName, validatePlace } = require("../utils/validators");
-const { logger } = require("../utils/logger");
-const config = require("../../config/config");
+const { validateDOB, validateTOB, validateName, validatePlace } = require("./validators");
+const config = require("./config");
 
 // Typing simulation delay (ms)
 const TYPING_DELAY = 800;
@@ -53,7 +52,7 @@ class ConversationAgent {
     }
 
     const step = session.step;
-    logger.info(`User ${userId} | Step: ${step} | Input: ${text.substring(0, 50)}`);
+    console.log(`User ${userId} | Step: ${step} | Input: ${text.substring(0, 50)}`);
 
     switch (step) {
       case STEPS.COLLECT_NAME:
@@ -100,7 +99,7 @@ class ConversationAgent {
       case "confirm_unlock":
         return this._showUpsellOffer(chatId, userId, session);
       default:
-        logger.warn(`Unknown callback: ${data}`);
+        console.warn(`Unknown callback: ${data}`);
     }
   }
 
@@ -205,7 +204,7 @@ class ConversationAgent {
       await this._delay(1000);
       await this._inviteQuestions(chatId, userId, kundali);
     } catch (err) {
-      logger.error("Kundali generation failed:", err);
+      console.error("Kundali generation failed:", err);
       await this.bot.sendMessage(
         chatId,
         "⚠️ Kundali calculate karne mein thoda issue aaya. Please /start karke dobara try karein."

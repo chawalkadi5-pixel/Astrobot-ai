@@ -4,8 +4,7 @@
  * For production: replace with Redis or a DB.
  */
 
-const config = require("../../config/config");
-const { logger } = require("../utils/logger");
+const config = require("./config");
 
 // ── Flow Steps ────────────────────────────────────────────────────────────────
 const STEPS = {
@@ -68,7 +67,7 @@ class SessionManager {
     };
 
     this.sessions.set(String(userId), session);
-    logger.info(`Session created for user ${userId}`);
+    console.log(`Session created for user ${userId}`);
     return session;
   }
 
@@ -103,7 +102,7 @@ class SessionManager {
    */
   resetSession(userId) {
     this.sessions.delete(String(userId));
-    logger.info(`Session reset for user ${userId}`);
+    console.log(`Session reset for user ${userId}`);
   }
 
   /**
@@ -136,7 +135,7 @@ class SessionManager {
         removed++;
       }
     }
-    if (removed > 0) logger.info(`Cleaned up ${removed} expired sessions`);
+    if (removed > 0) console.log(`Cleaned up ${removed} expired sessions`);
   }
 
   /**
