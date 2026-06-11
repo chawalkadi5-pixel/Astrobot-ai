@@ -9,8 +9,7 @@
  *  - Designed to be swapped with a real astro API endpoint
  */
 
-const config = require("../../config/config");
-const { logger } = require("../utils/logger");
+const config = require("./config");
 
 // ── Planet & Sign Tables ──────────────────────────────────────────────────────
 
@@ -118,7 +117,7 @@ class AstroAnalysisAgent {
    */
   async analyzeKundali({ name, dob, tob, pob }) {
     try {
-      logger.info(`Generating kundali for: ${name}, ${dob}`);
+      console.log(`Generating kundali for: ${name}, ${dob}`);
 
       const birthData = this._parseBirthData(dob, tob);
       const lagnaSign = this._calculateLagna(birthData);
@@ -155,7 +154,7 @@ class AstroAnalysisAgent {
         generatedAt: new Date().toISOString(),
       };
     } catch (err) {
-      logger.error("Kundali generation error:", err);
+      console.error("Kundali generation error:", err);
       throw new Error("Kundali calculation mein error aaya. Please retry.");
     }
   }
